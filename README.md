@@ -1,5 +1,5 @@
 ## Project "Search and Sample Return" by Ian Logan
-![1](./images/rover-success.png)
+![1](./images/rover-success.PNG)
 
 **The goals / steps of this project are the following:**  
 
@@ -33,11 +33,11 @@ The purpose of `perspect_transform()` is to take in an image from the rover's ca
 
 ###### Input
 
-![2](./images/grid.png)
+![2](./images/grid.PNG)
 
 ###### Output of 'warped' and 'mask' images
 
-![3](./images/warp-mask.png)
+![3](./images/warp-mask.PNG)
 
 Using OpenCV, we take in an image and use the corners of what would make up a 1x1 meter grid in front of the rover's camera to transform it into a warped perspective with 1x1 meter grids, thus creating an aerial view. We can use this view to create a mask of what is in view of the camera for defining obstacles later.
 
@@ -58,7 +58,7 @@ def perspect_transform(img, src, dst):
 
 ##### Color Thresholding
 
-![4](./images/color-thresh.png)
+![4](./images/color-thresh.PNG)
 
 The next step is to take the warped output of the previous function and to apply a color threshold to it. Important to note is that the color of the ground is very light while the surrounding terrain is very dark. We can take advantage of this fact by converting the image to a binary one where white pixels are associated with high intensity rgb color values (ground), and lower intensity values (non-traversable terrain) are seen as black. Pixels below 160 across the rgb color channels fell beneath the color threshold for ridable terrain, so I designed the function with this fact in consideration.
 
@@ -82,7 +82,7 @@ def color_thresh(img, rgb_thresh=(160, 160, 160)):
 
 ##### Finding Rocks
 
-![5](./images/find-rocks.png)
+![5](./images/find-rocks.PNG)
 
 Using similar logic as `color thresh()`, we can also use the `find_rocks()` function to create a threshold for identifying the yellow color of the rocks. Rather than use RGB, HSV serves as a better alternative for isolating the yellow hue of the rocks. With hue determined, we can create a bounding box to determine how bright or dark of a yellow we want the rover to associate with the rocks. Again the image is converted to a binary mask.
 
@@ -110,7 +110,7 @@ def find_rocks(img, hue=96):
 
 ##### Coordinate-Transformations
 
-![6](./images/coordinate-transform.png)
+![6](./images/coordinate-transform.PNG)
 
 There are several functions that handle the coordinate-transformations. Two of the most notable are `rover_coords()` and `to_polar_coords()`. Illustrated above, these functions utilize the masked image of navigable terrain in order to supply rover-centric coordinates to the rover. By taking the average of the angles produced by the rover-centric image, the rover then has an appropriate yaw angle in which to rotate.
 
@@ -139,7 +139,7 @@ def to_polar_coords(x_pixel, y_pixel):
 
 Another important function is `pix_to_world()`. It utilizes `rotate_pix()` and `translate_pix()` in order to map the rover-centric coordinates to the world map.
 
-![7](./images/map-to-world.png)
+![7](./images/map-to-world.PNG)
 
  `rotate_pix()` applies a rotation matrix to the rover centric-pixel value map, so the angle matches up with the way the rover is facing in the world map. Meanwhile, `translate_pix()` adds the x and y values of the rovers position to the computed rotation, so that the two maps align correctly.
 
@@ -213,7 +213,7 @@ Using `color_thresh()` and `find_rocks()`on the warped output of `perspect_trans
 
 ###### Navigable Terrain vs Obstacles
 
-![8](./images/navi-v-obstacle.png)
+![8](./images/navi-v-obstacle.PNG)
 
 
 
@@ -284,7 +284,7 @@ return output_image
 ```
 ###### Processed Image Output
 
-![9](./images/mosaic.png)
+![9](./images/mosaic.PNG)
 
 ### Autonomous Navigation and Mapping
 
